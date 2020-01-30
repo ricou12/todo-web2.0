@@ -11,12 +11,11 @@ $todos.addEventListener('click', (event) => {
     // Récupère l'élément qui recoit le focus
     const element = event.target;
 
-
     // DELETE
     if (element.classList.contains('listTodo_trash')) {
         if (element.hasAttribute('data-id')) {
             const id = element.getAttribute('data-id');
-            deleteTodo(id).then(returnData => {
+            resquestDelete(id).then(returnData => {
                 if (returnData) {
                     getListTodo();
                     console.log('Suppression réussie');
@@ -27,56 +26,169 @@ $todos.addEventListener('click', (event) => {
         }
     }
 
-    // GET Affiche le todo 
+    // PAGE AFFICHER LE TODO
     if (element.classList.contains('listTodo_title')) {
         if (element.hasAttribute('data-id')) {
             const id = element.getAttribute('data-id');
-            getTodo(id);
+            requestTodo(`http://localhost:3000/api/v1/todos/${id}`).then(dataTodo => {
+                console.log(dataTodo);
+                $todos.innerHTML = showTdDetail(dataTodo);
+            });
         }
     }
 
-    // PATCH
-        if (element.classList.contains('listTodo')) {
-            if (element.hasAttribute('data-id')) {
-                const id = element.getAttribute('data-id');
-                changeTodo(id);
-            }
+    // PAGE AFFICHER POUR MODIFIER LE TODO
+    if (element.classList.contains('listTodo_edit')) {
+        if (element.hasAttribute('data-id')) {
+            const id = element.getAttribute('data-id');
+            requestTodo(`http://localhost:3000/api/v1/todos/${id}`).then(dataTodo => {
+                console.log(dataTodo);
+                $todos.innerHTML = modifier(dataTodo);
+            });
         }
+    }
+    
+    // MODIFIER LE TODO 
+    if (element.classList.contains('modifier_btn')) {
+        if (element.hasAttribute('data-id')) {
+            const title = document.querySelector('modifier_title').value;
+            const content = document.querySelector('modifier_content').textContent;
+            data = {
+                "title": title,
+                "content": content
+            }
+            const id = element.getAttribute('data-id');
+            ChangedOrAdded(`http://localhost:3000/api/v1/todos/${id}`, "PATCH", data).then(dataTodo => {
+                console.log(dataTodo);
+                getListTodo();
+            });
+        }
+    }
+
+    // RETOUR PAGE LIST DES TODOS
+    if (element.classList.contains('btnHome')) {
+        getListTodo();
+    }
 });
 
-
 /* ------------------------------------------
-  RECUPERE LA LISTE DES TODOS ET AFFICHE 
+            REQUETE ASYNCHRONE
 ------------------------------------------- */
-const getListTodo = () => {
-    fetch("http://localhost:3000/api/v1/todos")
+const requestTodo = (url) => {
+    return fetch(url)
         .then(res => res.json())
-        .then(dataTodos => {
-            console.log(dataTodos);
-            $todos.innerHTML = dataTodos.map(todo => showTodo(todo)).join("");
+        .then(dataTodo => {
+            return dataTodo;
         });
+}
+
+/* -------------------------------------------------
+        AFFICHER LA LISTE DES TODOS ET AFFICHE 
+------------------------------------------------- */
+const getListTodo = () => {
+    requestTodo("http://localhost:3000/api/v1/todos").then(dataTodos => {
+        console.log(dataTodos);
+        $todos.innerHTML = dataTodos.map(todo => showTodo(todo)).join("");
+    });
 }
 
 const showTodo = (todo) => {
     return `
-        <div class="row listTodo border">
-            <div class="col-12 col-lg-5 d-flex flex-nowrap align-items-center p-2">
-                <div class="d-flex">
-                    <input type="checkbox" class="listTodo_done">
-                    <h4 class="p-2 listTodo_Date">${new Date(todo.createdAt).toLocaleString()}</h4>
+        <div class="row listTodo m-2">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-4 d-flex flex-nowrap justify-content-center align-items-center border rounded bg-dark text-white p-1">
+                        <input type="checkbox" class="listTodo_done" ${stateCheckBox(todo.done)}>
+                        <h4 class="p-2 listTodo_Date">${new Date(todo.createdAt).toLocaleString()}</h4>
+                    </div>
                 </div>
-                <a href="#"><h4 class="listTodo_title" data-id="${todo.id}">${todo.title}</h4></a>
+                <div class="row">
+                    <div class="col-12 d-flex flex-nowrap align-items-center border p-2 bg-light">
+                        <a href="#"><h4 class="listTodo_title" data-id="${todo.id}">${todo.title}</h4></a>  
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 offset-md-8 col-md-4 d-flex flex-nowrap justify-content-between align-items-center p-1 border-bottom rounded ">
+                        <a href="#"><img class="listTodo_edit" src="./img/edit.svg" alt="editer" data-id="${todo.id}" width="50"></a>
+                        <a href="#"><img class="listTodo_trash" src="./img/trash.png" alt="trash" data-id="${todo.id}" width="50"></a>  
+                    </div>
+                </div>
             </div>
-            <div class="col-12 col-lg-7 d-flex flex-nowrap justify-content-between align-items-center p-2">
-                <h5 class="listTodo_content">${todo.content}</h5>
-                 <a href="#"><img class="border border-danger rounded listTodo_trash" src="./img/trash.png" alt="trash" data-id="${todo.id}" width="50"></a>
+        </div> `
+}
+
+/* ------------------------------------------
+            PAGE AFFICHER UN TODO
+------------------------------------------- */
+// Affiche tout le contenu du todo.
+const showTdDetail = (todo) => {
+    return `
+        <div class="row">
+            <div class="col-12 text-center p-2 bg-secondary text-white rounded mb-3">
+                <h1>Consulter...</h1>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center align-items-center bg-dark text-white border rounded ">
+                <input type="checkbox" class="showTdDetail_done" ${stateCheckBox(todo.done)}>
+                <h4 class="p-2 showTd_date">${new Date(todo.createdAt).toLocaleString()}</h4>
+            </div>
+        </div>
+        <div class="row border bg-light rounded">
+                <div class="col-12 d-flex align-items-center bg-white border rounded p-3">
+                    <h4 class="mx-2 showTdDetail_title">${todo.title}</h4>
+                </div>
+                <div class="col-12 d-flex align-items-center p-3">
+                    ${todo.content}
+                </div>
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-end align-items-center mt-2">
+                <a href="#" class="btn btn-secondary btnHome float-right">Retour</a>
+            </div> 
+        </div>`
+        // <textarea rows="10" cols="1" class="w-100 bg-white text-dark" disabled>${todo.content}</textarea>
+}
+
+/* -----------------------------------------------
+        PAGE AFFICHER POUR MODIFIER LE TODO
+------------------------------------------------ */
+const modifier = (todo) => {
+    return `
+    <div class="row">
+        <div class="col-12 text-center p-2 bg-secondary text-white rounded mb-3">
+            <h1>Modifier une note</h1>
+        </div>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center align-items-center bg-dark text-white border rounded ">
+                    <input type="checkbox" class="modifier_done" ${stateCheckBox(todo.done)}>
+                    <h4 class="p-2 modifier_date">${new Date(todo.createdAt).toLocaleString()}</h4>
+                </div>
+            </div>
+            <div class="row border bg-light rounded">
+                <div class="col-12 d-flex align-items-center bg-white border rounded p-3">
+                    <input type="text" class="mx-2 modifier_title w-100" value="${todo.title}">
+                </div>
+                <div class="col-12 d-flex align-items-center p-3">
+                    <textarea rows="10" cols="1" class="modifier_content w-100">${todo.content}</textarea>
+                </div>
+                <div class="col-12 d-flex justify-content-center align-items-center p-3">
+                    <a href="#" class="btn btn-primary modifier_btn">Enregistrer</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 d-flex justify-content-end align-items-center mt-2">
+                    <a href="#" class="btn btn-secondary btnHome float-right">Retour</a>
+                </div> 
+            </div>
+        </div>
+    </div> 
    `
 }
 
 /* ----------------------------------------------------
-                AJOUTER UN TODO
+                    AJOUTER UN TODO
 ----------------------------------------------------- */
 $addedTodo.addEventListener('click', () => {
     const title = document.querySelector('.addedTodoTitle');
@@ -85,25 +197,25 @@ $addedTodo.addEventListener('click', () => {
         "title": title.value,
         "content": content.value
     };
-    added(data).then(data => {
+    ChangedOrAdded("http://localhost:3000/api/v1/todos","POST",data).then(data => {
         // getListTodo();
         // Ajout le nouveau todo à la liste
         $todos.innerHTML += showTodo(data);
         // Vide les champs input.
-        title.value ="";
-        content.value ="";
+        title.value = "";
+        content.value = "";
     });
 
 });
 
-const added = (data) => {
-    return fetch("http://localhost:3000/api/v1/todos", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        })
+const ChangedOrAdded = (url,verbe,data) => {
+    return fetch(url, {
+        method: verbe,
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
         .then(res => res.json())
         .then(returnData => {
             return returnData;
@@ -114,61 +226,12 @@ const added = (data) => {
 }
 
 /* ------------------------------------------
-        AFFICHER ET MODIFIER UN TODO
+        MODIFIER OU SUPPRIMER UN TODO
 ------------------------------------------- */
-// afficher un todo
-const getTodo = (id) => {
-    fetch(`http://localhost:3000/api/v1/todos/${id}`)
-        .then(res => res.json())
-        .then(dataTodo => {
-            console.log(dataTodo);
-            $todos.innerHTML = showTodoDetail(dataTodo);
-        });
-}
-// Affiche tout le contenu du todo.
-const showTodoDetail = (todo) => {
-    return `
-    <div class="container border bg-light">
-        <div class="row changeTodo">
-                <div class="col-12 d-flex align-items-center">
-                    <input type="checkbox" class="showTodoDetail_done">
-                    <h4 class="p-2 listTodo_Date">${new Date(todo.createdAt).toLocaleString()}</h4>
-                    <h4 type="text" class="mx-2 showTodoDetail_title">${todo.title}</h4>
-                </div>
-                <div class="col-12 d-flex align-items-center">
-                    <input type="text" class="mx-2 showTodoDetail_content" value="${todo.content}">
-                    <a href="#" class="btn btn-primary showTodoDetail_btnChange float-right">Retour</a>
-                </div>   
-        </div>
-    <div>`
-}
-
-// Affiche tout le contenu du todo.
-const changeTodo = (todo) => {
-    return `
-    <div class="container border">
-        <div class="row changeTodo">
-            <div class="col-12 d-flex flex-wrap justify-content-around align-items-center">
-                <div class="d-flex">
-                    <input type="checkbox" class="changeTodo_done">
-                    <input type="text" class="mx-2 changeTodo_title" value="${todo.title}">
-                    <input type="text" class="mx-2 changeTodo_content" value="${todo.content}">
-                </div>
-                <div class="d-flex">
-                    <a href="#" class="btn btn-primary changeTodo_btnChange float-right" data-id="${todo.id}">Modifier</a>
-                </div>   
-            </div>
-        </div>
-    <div>`
-}
-
-/* ------------------------------------------
-                DELETE UN TODO
-------------------------------------------- */
-const deleteTodo = (id) => {
+const resquestDelete =(id) => {
     return fetch(`http://localhost:3000/api/v1/todos/${id}`, {
-            method: "DELETE"
-        })
+        method: "DELETE"
+    })
         .then(res => res.json())
         .then(returnData => {
             return returnData;
@@ -176,6 +239,17 @@ const deleteTodo = (id) => {
         .catch((error) => {
             console.log(error.message);
         });
+}
+
+/* ------------------------------------------
+        RENVOI L'ETAT DU CHECKBOX
+------------------------------------------- */
+const stateCheckBox = (state) => {
+    if (state) {
+        return "checked";
+    } else {
+        return "";
+    }
 }
 
 /* ------------------------------------------

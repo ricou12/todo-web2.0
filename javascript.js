@@ -51,11 +51,13 @@ $todos.addEventListener('click', (event) => {
     // MODIFIER LE TODO 
     if (element.classList.contains('modifier_btn')) {
         if (element.hasAttribute('data-id')) {
-            const title = document.querySelector('modifier_title').value;
-            const content = document.querySelector('modifier_content').textContent;
+            const title = document.querySelector('.modifier_title').value;
+            const content = document.querySelector('.modifier_content').value;
+            const checkedBox = document.querySelector('.modifier_done').hasAttribute('checked');
             data = {
                 "title": title,
-                "content": content
+                "content": content,
+                "done": checkedBox
             }
             const id = element.getAttribute('data-id');
             ChangedOrAdded(`http://localhost:3000/api/v1/todos/${id}`, "PATCH", data).then(dataTodo => {
@@ -72,7 +74,7 @@ $todos.addEventListener('click', (event) => {
 });
 
 /* ------------------------------------------
-            REQUETE ASYNCHRONE
+            REQUETES ASYNCHRONES
 ------------------------------------------- */
 const requestTodo = (url) => {
     return fetch(url)
@@ -82,8 +84,42 @@ const requestTodo = (url) => {
         });
 }
 
+// AJOUTER
+const ChangedOrAdded = (url, verbe, data) => {
+    return fetch(url, {
+        method: verbe,
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(res => res.json())
+        .then(returnData => {
+            return returnData;
+        })
+        .catch((error) => {
+            console.log(error.message);
+        });
+}
+
+// MODIFIER OU SUPPRIMER
+const resquestDelete = (id) => {
+    return fetch(`http://localhost:3000/api/v1/todos/${id}`, {
+        method: "DELETE"
+    })
+        .then(res => res.json())
+        .then(returnData => {
+            return returnData;
+        })
+        .catch((error) => {
+            console.log(error.message);
+        });
+}
+
+
+
 /* -------------------------------------------------
-        AFFICHER LA LISTE DES TODOS ET AFFICHE 
+    AFFICHER LA LISTE DES TODOS ET AFFICHE 
 ------------------------------------------------- */
 const getListTodo = () => {
     requestTodo("http://localhost:3000/api/v1/todos").then(dataTodos => {
@@ -174,12 +210,12 @@ const modifier = (todo) => {
                     <textarea rows="10" cols="1" class="modifier_content w-100">${todo.content}</textarea>
                 </div>
                 <div class="col-12 d-flex justify-content-center align-items-center p-3">
-                    <a href="#" class="btn btn-primary modifier_btn">Enregistrer</a>
+                    <a href="#" class="btn btn-primary modifier_btn"  data-id="${todo.id}">Enregistrer</a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 d-flex justify-content-end align-items-center mt-2">
-                    <a href="#" class="btn btn-secondary btnHome float-right">Retour</a>
+                    <a href="#" class="btn btn-secondary btnHome">Retour</a>
                 </div> 
             </div>
         </div>
@@ -207,39 +243,6 @@ $addedTodo.addEventListener('click', () => {
     });
 
 });
-
-const ChangedOrAdded = (url,verbe,data) => {
-    return fetch(url, {
-        method: verbe,
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    })
-        .then(res => res.json())
-        .then(returnData => {
-            return returnData;
-        })
-        .catch((error) => {
-            console.log(error.message);
-        });
-}
-
-/* ------------------------------------------
-        MODIFIER OU SUPPRIMER UN TODO
-------------------------------------------- */
-const resquestDelete =(id) => {
-    return fetch(`http://localhost:3000/api/v1/todos/${id}`, {
-        method: "DELETE"
-    })
-        .then(res => res.json())
-        .then(returnData => {
-            return returnData;
-        })
-        .catch((error) => {
-            console.log(error.message);
-        });
-}
 
 /* ------------------------------------------
         RENVOI L'ETAT DU CHECKBOX

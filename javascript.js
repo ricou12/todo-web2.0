@@ -142,7 +142,11 @@ const resquestDelete = (id) => {
 const getListTodo = () => {
     requestTodo("http://localhost:3000/api/v1/todos").then(dataTodos => {
         console.log(dataTodos);
-        $todos.innerHTML = dataTodos.map(todo => showTodo(todo)).join("");
+        $todos.innerHTML = `<div class="col-12 text-center p-2 text-secondary rounded mb-3">
+            <h1>Toutes les notes</h1>
+        </div>`
+        $todos.innerHTML += dataTodos.map(todo => showTodo(todo)).join("");
+        
     });
 }
 
@@ -178,7 +182,7 @@ const showTodo = (todo) => {
 const showTdDetail = (todo) => {
     return `
         <div class="row">
-            <div class="col-12 text-center p-2 bg-secondary text-white rounded mb-3">
+            <div class="col-12 text-center p-2 text-secondary rounded mb-3">
                 <h1>Consulter...</h1>
             </div>
         </div>
@@ -210,7 +214,7 @@ const showTdDetail = (todo) => {
 const modifier = (todo) => {
     return `
     <div class="row">
-        <div class="col-12 text-center p-2 bg-secondary text-white rounded mb-3">
+        <div class="col-12 text-center p-2 text-secondary rounded mb-3">
             <h1>Modifier une note</h1>
         </div>
         <div class="col-12">
@@ -270,16 +274,15 @@ $addedTodo.addEventListener('click', () => {
 ----------------------------------------------------- */
 const messageBox = (title, info) => {
     document.querySelector('.message').innerHTML = `
-    <div class="toast" role="alert" aria-live="assertive" data-delay="5000" aria-atomic="true" >
-        <div class="toast-header">
+    <div class="toast" role="alert" aria-live="assertive" data-delay="5000" aria-atomic="true" style="">
+        <div class="toast-header bg-danger text-white">
             <img src="..." class="rounded mr-2" alt="...">
             <strong class="mr-auto">${title}</strong>
-            <small class="text-muted">Timer: 5 s</small>
             <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="toast-body">
+        <div class="toast-body bg-dark text-white">
             ${info}
         </div>
     </div>`

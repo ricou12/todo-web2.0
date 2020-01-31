@@ -261,7 +261,6 @@ $addedTodo.addEventListener('click', () => {
             messageBox("Edition","Votre note a été prise en compte !");
             $('.toast').toast('show');
             getListTodo();
-            
         });
     }
 });

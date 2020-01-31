@@ -3,9 +3,6 @@ const $todos = document.querySelector('.todos');
 // bouton validation ajout todo
 const $addedTodo = document.querySelector('.addedTodoSave');
 
-$todos.addEventListener('onmouseUp', (event) => {
-    
-});
 /* ----------------------------------------------------
   ECOUTE LES EVENEMENTS A PARTIR DE LA BALISE PARENT
 ----------------------------------------------------- */
@@ -24,14 +21,11 @@ $todos.addEventListener('click', (event) => {
             ChangedOrAdded(`http://localhost:3000/api/v1/todos/${id}`, "PATCH", data).then(returnData => {
                 if (returnData) {
                     getListTodo();
-                    // console.log('Suppression réussie');
-                } else {
-                    // console.log('Impossible de supprimer');
                 }
             });
-        }   
-    }  
-    
+        }
+    }
+
     // DELETE
     if (element.classList.contains('listTodo_trash')) {
         if (element.hasAttribute('data-id')) {
@@ -39,10 +33,11 @@ $todos.addEventListener('click', (event) => {
             resquestDelete(id).then(returnData => {
                 if (returnData) {
                     getListTodo();
-                    console.log('Suppression réussie');
+                    messageBox("Suppression","La note a été supprimée !")
                 } else {
-                    console.log('Impossible de supprimer');
+                    messageBox("Suppression","Impossible de supprimer la note!")
                 }
+                $('.toast').toast('show');
             });
         }
     }
@@ -68,7 +63,7 @@ $todos.addEventListener('click', (event) => {
             });
         }
     }
-    
+
     // MODIFIER LE TODO 
     if (element.classList.contains('modifier_btn')) {
         if (element.hasAttribute('data-id')) {
@@ -84,6 +79,8 @@ $todos.addEventListener('click', (event) => {
             ChangedOrAdded(`http://localhost:3000/api/v1/todos/${id}`, "PATCH", data).then(dataTodo => {
                 // console.log(dataTodo);
                 getListTodo();
+                messageBox("Modification","Les modifications ont été prise en compte !")
+                $('.toast').toast('show');
             });
         }
     }
@@ -108,12 +105,12 @@ const requestTodo = (url) => {
 // AJOUTER OU MODIFIER
 const ChangedOrAdded = (url, verbe, data) => {
     return fetch(url, {
-        method: verbe,
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    })
+            method: verbe,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
         .then(res => res.json())
         .then(returnData => {
             return returnData;
@@ -126,8 +123,8 @@ const ChangedOrAdded = (url, verbe, data) => {
 // MODIFIER OU SUPPRIMER
 const resquestDelete = (id) => {
     return fetch(`http://localhost:3000/api/v1/todos/${id}`, {
-        method: "DELETE"
-    })
+            method: "DELETE"
+        })
         .then(res => res.json())
         .then(returnData => {
             return returnData;
@@ -204,7 +201,7 @@ const showTdDetail = (todo) => {
                 <a href="#" class="btn btn-secondary btnHome float-right">Retour</a>
             </div> 
         </div>`
-        // <textarea rows="10" cols="1" class="w-100 bg-white text-dark" disabled>${todo.content}</textarea>
+    // <textarea rows="10" cols="1" class="w-100 bg-white text-dark" disabled>${todo.content}</textarea>
 }
 
 /* -----------------------------------------------
@@ -250,18 +247,44 @@ const modifier = (todo) => {
 $addedTodo.addEventListener('click', () => {
     const title = document.querySelector('.addedTodoTitle');
     const content = document.querySelector('.addedTodoContent');
-    const data = {
-        "title": title.value,
-        "content": content.value
-    };
-    ChangedOrAdded("http://localhost:3000/api/v1/todos","POST",data).then(data => {
-        // getListTodo();
-        getListTodo();
-        title.value = "";
-        content.value = "";
-    });
-
+    if (title.value === "") {
+        messageBox("Edition","Vous devez saisir au moins un titre !");
+        $('.toast').toast('show');
+    } else {
+        const data = {
+            "title": title.value,
+            "content": content.value
+        };
+        ChangedOrAdded("http://localhost:3000/api/v1/todos", "POST", data).then(data => {
+            title.value = "";
+            content.value = "";
+            messageBox("Edition","Votre note a été prise en compte !");
+            $('.toast').toast('show');
+            getListTodo();
+            
+        });
+    }
 });
+
+/* ----------------------------------------------------
+                    MESSAGE UTILISATEUR
+----------------------------------------------------- */
+const messageBox = (title, info) => {
+    document.querySelector('.message').innerHTML = `
+    <div class="toast" role="alert" aria-live="assertive" data-delay="5000" aria-atomic="true" >
+        <div class="toast-header">
+            <img src="..." class="rounded mr-2" alt="...">
+            <strong class="mr-auto">${title}</strong>
+            <small class="text-muted">Timer: 5 s</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            ${info}
+        </div>
+    </div>`
+}
 
 /* ------------------------------------------
         RENVOI L'ETAT DU CHECKBOX

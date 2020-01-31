@@ -11,6 +11,12 @@ $todos.addEventListener('click', (event) => {
     // Récupère l'élément qui recoit le focus
     const element = event.target;
 
+    // CHECK UN ELEMENT
+    if (element.classList.contains('listTodo_done')) {
+
+        
+    }
+    
     // DELETE
     if (element.classList.contains('listTodo_trash')) {
         if (element.hasAttribute('data-id')) {
@@ -235,9 +241,7 @@ $addedTodo.addEventListener('click', () => {
     };
     ChangedOrAdded("http://localhost:3000/api/v1/todos","POST",data).then(data => {
         // getListTodo();
-        // Ajout le nouveau todo à la liste
         $todos.innerHTML += showTodo(data);
-        // Vide les champs input.
         title.value = "";
         content.value = "";
     });

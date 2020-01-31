@@ -3,7 +3,9 @@ const $todos = document.querySelector('.todos');
 // bouton validation ajout todo
 const $addedTodo = document.querySelector('.addedTodoSave');
 
-
+$todos.addEventListener('onmouseUp', (event) => {
+    
+});
 /* ----------------------------------------------------
   ECOUTE LES EVENEMENTS A PARTIR DE LA BALISE PARENT
 ----------------------------------------------------- */
@@ -13,9 +15,22 @@ $todos.addEventListener('click', (event) => {
 
     // CHECK UN ELEMENT
     if (element.classList.contains('listTodo_done')) {
-
-        
-    }
+        if (element.hasAttribute('data-id')) {
+            const id = element.getAttribute('data-id');
+            const checkedBox = element.checked;
+            data = {
+                "done": checkedBox
+            }
+            ChangedOrAdded(`http://localhost:3000/api/v1/todos/${id}`, "PATCH", data).then(returnData => {
+                if (returnData) {
+                    getListTodo();
+                    // console.log('Suppression réussie');
+                } else {
+                    // console.log('Impossible de supprimer');
+                }
+            });
+        }   
+    }  
     
     // DELETE
     if (element.classList.contains('listTodo_trash')) {
@@ -37,7 +52,7 @@ $todos.addEventListener('click', (event) => {
         if (element.hasAttribute('data-id')) {
             const id = element.getAttribute('data-id');
             requestTodo(`http://localhost:3000/api/v1/todos/${id}`).then(dataTodo => {
-                console.log(dataTodo);
+                // console.log(dataTodo);
                 $todos.innerHTML = showTdDetail(dataTodo);
             });
         }
@@ -48,7 +63,7 @@ $todos.addEventListener('click', (event) => {
         if (element.hasAttribute('data-id')) {
             const id = element.getAttribute('data-id');
             requestTodo(`http://localhost:3000/api/v1/todos/${id}`).then(dataTodo => {
-                console.log(dataTodo);
+                // console.log(dataTodo);
                 $todos.innerHTML = modifier(dataTodo);
             });
         }
@@ -67,7 +82,7 @@ $todos.addEventListener('click', (event) => {
             }
             const id = element.getAttribute('data-id');
             ChangedOrAdded(`http://localhost:3000/api/v1/todos/${id}`, "PATCH", data).then(dataTodo => {
-                console.log(dataTodo);
+                // console.log(dataTodo);
                 getListTodo();
             });
         }
@@ -90,7 +105,7 @@ const requestTodo = (url) => {
         });
 }
 
-// AJOUTER
+// AJOUTER OU MODIFIER
 const ChangedOrAdded = (url, verbe, data) => {
     return fetch(url, {
         method: verbe,
@@ -140,7 +155,7 @@ const showTodo = (todo) => {
             <div class="col-12">
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-4 d-flex flex-nowrap justify-content-center align-items-center border rounded bg-dark text-white p-1">
-                        <input type="checkbox" class="listTodo_done" ${stateCheckBox(todo.done)}>
+                        <input type="checkbox" class="listTodo_done" data-id="${todo.id}" ${stateCheckBox(todo.done)}>
                         <h4 class="p-2 listTodo_Date">${new Date(todo.createdAt).toLocaleString()}</h4>
                     </div>
                 </div>
@@ -241,7 +256,7 @@ $addedTodo.addEventListener('click', () => {
     };
     ChangedOrAdded("http://localhost:3000/api/v1/todos","POST",data).then(data => {
         // getListTodo();
-        $todos.innerHTML += showTodo(data);
+        getListTodo();
         title.value = "";
         content.value = "";
     });

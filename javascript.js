@@ -120,7 +120,7 @@ const ChangedOrAdded = (url, verbe, data) => {
         });
 }
 
-// MODIFIER OU SUPPRIMER
+// SUPPRIMER
 const resquestDelete = (id) => {
     return fetch(`http://localhost:3000/api/v1/todos/${id}`, {
             method: "DELETE"

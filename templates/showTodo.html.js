@@ -12,7 +12,7 @@ export const showTdDetail = (todo,stateCheckBox) => {
         </div>
         <div class="row">
             <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center align-items-center bg-dark p-1 listTodo_b1">
-                <h4 class="p-2 showTd_date" style="color:${stateCheckBox.color};">${new Date(todo.createdAt).toLocaleString()}</h4>
+                <h5 class="p-2 showTd_date" style="color:${stateCheckBox.color};">${new Date(todo.createdAt).toLocaleString()}</h5>
             </div>
         </div>
         <div class="row border bg-light listTodo_b2">

@@ -1,3 +1,8 @@
+h5,textarea,input {
+    font-family: 'Roboto', sans-serif;
+}
+
+
 .fond {
     position: fixed;
     top: 0;
@@ -23,7 +28,7 @@
     margin-bottom: 100px;
 
     .listTodo {
-        animation: progress 1s;
+        // animation: progress 1s;
         .listTodo_b1 {
             border-radius: 5px 5px 0 0;
         }

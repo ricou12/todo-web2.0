@@ -1,3 +1,6 @@
+h5, textarea, input {
+  font-family: 'Roboto', sans-serif; }
+
 .fond {
   position: fixed;
   top: 0;
@@ -19,15 +22,13 @@
   background: rgba(250, 250, 250, 0.2);
   border-radius: 5px;
   margin-bottom: 100px; }
-  .todos .listTodo {
-    animation: progress 1s; }
-    .todos .listTodo .listTodo_b1 {
-      border-radius: 5px 5px 0 0; }
-    .todos .listTodo .listTodo_b2 {
-      background-color: rgba(255, 255, 255, 0.7);
-      border-radius: 0 5px 5px 5px; }
-      .todos .listTodo .listTodo_b2_icon {
-        width: 100px; }
+  .todos .listTodo .listTodo_b1 {
+    border-radius: 5px 5px 0 0; }
+  .todos .listTodo .listTodo_b2 {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 0 5px 5px 5px; }
+    .todos .listTodo .listTodo_b2_icon {
+      width: 100px; }
 
 @keyframes progress {
   from {

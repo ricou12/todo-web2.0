@@ -2,7 +2,9 @@ import {resquestDelete} from './serviceControleur.js';
 import {getListTodo} from './listTodosController.js';
 import {messageBox} from '../templates/messageBox.html.js';
 
-
+/* ----------------------------------------------------------
+    SUPPRESSION D'UN TODO
+---------------------------------------------------------- */
 export const deleteTodo = (id) => {
     resquestDelete(id).then(returnData => {
         if (returnData) {

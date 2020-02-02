@@ -1,0 +1,23 @@
+{
+  "name": "bloc-note",
+  "version": "1.0.0",
+  "description": "Mise en application des notions de web 2.0, requetes serveurs, et séparation des responsabilités.",
+  "main": "javascript.js",
+  "scripts": {
+    "start": "node-sass sass/main.scss css/main.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ricou12/todo-web2.0.git"
+  },
+  "author": "Ricou",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ricou12/todo-web2.0/issues"
+  },
+  "homepage": "https://github.com/ricou12/todo-web2.0#readme",
+  "devDependencies": {
+    "node-sass": "^4.13.1"
+  }
+}

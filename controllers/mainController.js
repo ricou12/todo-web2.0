@@ -1,7 +1,7 @@
 import {getListTodo} from './listTodosController.js';
 import {ShowTodo} from './showTodoController.js';
 import {addedTodo} from './addedTodoController.js';
-import {changeTodo,ShowChangeTodo} from './changedTodoController.js';
+import {changeTodo,ShowChangeTodo,isCheckedChangeColor} from './changedTodoController.js';
 import {deleteTodo} from './deleteTodoController.js';
 import {changedChecked} from './changedCheckedController.js';
 
@@ -23,8 +23,8 @@ $todos.addEventListener('click', (event) => {
     // Récupère l'élément qui recoit le focus
     const element = event.target;
 
-    // CHECK UN ELEMENT
-    if (element.classList.contains('listTodo_done')) {
+    // SI ON CLIQUE SUR LE CHECKBOX DE LA PAGE LISTE DES TODOS
+    if (element.classList.contains('listTodo_b1_done')) {
         if (element.hasAttribute('data-id')) {
             const id = element.getAttribute('data-id');
             const checkedBox = element.checked;
@@ -32,8 +32,13 @@ $todos.addEventListener('click', (event) => {
         }
     }
 
+    // SI ON CLIQUE SUR LE CHECKBOX DE LA PAGE MODIFIER LE TODO 
+    if (element.classList.contains('modifier_done')) {
+        isCheckedChangeColor(element);
+    }
+
     // DELETE
-    if (element.classList.contains('listTodo_trash')) {
+    if (element.classList.contains('listTodo_b2_trash')) {
         if (element.hasAttribute('data-id')) {
             const id = element.getAttribute('data-id');
             deleteTodo(id);
@@ -41,7 +46,7 @@ $todos.addEventListener('click', (event) => {
     }
 
     // PAGE AFFICHER LE TODO
-    if (element.classList.contains('listTodo_title')) {
+    if (element.classList.contains('listTodo_b2_title')) {
         if (element.hasAttribute('data-id')) {
             const id = element.getAttribute('data-id');
             ShowTodo(id,$todos);
@@ -49,7 +54,7 @@ $todos.addEventListener('click', (event) => {
     }
 
     // PAGE AFFICHER POUR MODIFIER LE TODO
-    if (element.classList.contains('listTodo_edit')) {
+    if (element.classList.contains('listTodo_b2_edit')) {
         if (element.hasAttribute('data-id')) {
             const id = element.getAttribute('data-id');
             ShowChangeTodo(id,$todos);
@@ -69,7 +74,6 @@ $todos.addEventListener('click', (event) => {
         getListTodo();
     }
 });
-
 
 
 /* ------------------------------------------

@@ -1,10 +1,16 @@
 /* ------------------------------------------
-        RENVOI L'ETAT DU CHECKBOX
+        RENVOI L'ETAT DU CHECKBOX 
 ------------------------------------------- */
 export const stateCheckBox = (state) => {
     if (state) {
-        return "checked";
+        return {
+            "etat":"checked",
+            "color":"gray"
+        };
     } else {
-        return "";
+        return {
+            "etat":"",
+            "color":"white"
+        };
     }
 }

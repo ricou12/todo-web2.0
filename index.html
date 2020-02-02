@@ -7,50 +7,57 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/main.css">
     <title>Todo-Web 2.0</title>
 </head>
 
 <body>
-    <div class="container-fluid bg-dark mb-1">
-        <div class="row p-3">
-            <div class="col-2 d-flex align-items-center">
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#addedTodo">
-                    Editer un todo
-                </button>
+    <div class="container-fluid fond"></div>
+    <div class="container-fluid mb-1 header">
+        <div class="row p-3 ">
+            <div class="col-12 d-flex justify-content-around">
+                <div class="header_editer header--bg d-flex align-items-center">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#addedTodo">
+                        Editer un todo
+                    </button>
 
-                <!-- Modal -->
-                <div class="modal fade" id="addedTodo" tabindex="-1" role="dialog"
-                    aria-labelledby="addedTodoLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addedTodoLabel">Ajouter une  note.</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body d-flex flex-column">
-                                <label for="">Titre</label>
-                                <input type="text" class="addedTodoTitle" id="addedTodoTitle">
-                                <label for="">Commentaires</label>
-                                <textarea type="text" class="addedTodoContent w-100" id="addedTodoContent" rows="5" cols="1"></textarea>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary addedTodoSave" data-dismiss="modal">Enregistrer</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="addedTodo" tabindex="-1" role="dialog" aria-labelledby="addedTodoLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addedTodoLabel">Ajouter une note.</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body d-flex flex-column">
+                                    <label for="">Titre</label>
+                                    <input type="text" class="addedTodoTitle" id="addedTodoTitle">
+                                    <label for="">Commentaires</label>
+                                    <textarea type="text" class="addedTodoContent w-100" id="addedTodoContent" rows="5"
+                                        cols="1"></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary addedTodoSave"
+                                        data-dismiss="modal">Enregistrer</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-10">
-                <h1 class="text-center text-white">Bloc notes</h1>
+                <div class="header_title header--bg d-flex align-items-center">
+                    <h1 class="text-center text-white">Bloc notes</h1>
+                </div>
             </div>
         </div>
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 p-2 message d-flex justify-content-start position-fixed" style="z-index:500; opacity: 0.9;"></div>
+            <div class="col-12 p-2 message d-flex position-fixed"
+                style="z-index:500; opacity: 0.9;"></div>
         </div>
     </div>
     <div class="container">

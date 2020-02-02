@@ -19,5 +19,8 @@
   "homepage": "https://github.com/ricou12/todo-web2.0#readme",
   "devDependencies": {
     "node-sass": "^4.13.1"
+  },
+  "dependencies": {
+    "bootstrap": "^4.4.1"
   }
 }

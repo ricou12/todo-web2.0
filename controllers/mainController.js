@@ -13,7 +13,8 @@ const $todos = document.querySelector('.todos');
 /* ----------------------------------------------------
   ECOUTE L'EVENT BUTTON DU MODAL AJOUTER
 ----------------------------------------------------- */
-document.querySelector('.addedTodoSave').addEventListener('click',() => {
+const $addedTodo = document.querySelector('.addedTodoSave');
+$addedTodo.addEventListener('click', () => {
     addedTodo();
 });
 /* ----------------------------------------------------

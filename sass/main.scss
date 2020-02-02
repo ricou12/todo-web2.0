@@ -1,0 +1,49 @@
+.fond {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../img/fond.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.header {
+    position: relative;
+    background-color: rgba(7, 7, 7, 0.6);
+}
+
+.todos {
+    position: relative;
+    overflow: hidden;
+    background: rgba(250, 250, 250, 0.2);
+    border-radius: 5px;
+    margin-bottom: 100px;
+
+    .listTodo {
+        animation: progress 1s;
+        .listTodo_b1 {
+            border-radius: 5px 5px 0 0;
+        }
+        .listTodo_b2 {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 0 5px 5px 5px;
+
+            &_icon {
+                width: 100px;
+            }
+        }
+    }
+}
+
+@keyframes progress {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

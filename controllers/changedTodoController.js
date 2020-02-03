@@ -10,9 +10,9 @@ import {modifier} from '../templates/changeTodo.html.js';
 ---------------------------------------------------------- */
 
 // Affichage de la page.
-export const ShowChangeTodo = (id,$component) => {
-    requestTodo(`http://localhost:3000/api/v1/todos/${id}`).then(dataTodo => {
-        $component.innerHTML = modifier(dataTodo,stateCheckBox(dataTodo.done));
+export const ShowChangeTodo = (id) => {
+    return requestTodo(`http://localhost:3000/api/v1/todos/${id}`).then(dataTodo => {
+       return modifier(dataTodo,stateCheckBox(dataTodo.done));
     });
 }
 

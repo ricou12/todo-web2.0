@@ -50,7 +50,9 @@ $todos.addEventListener('click', (event) => {
     if (element.classList.contains('listTodo_b2_title')) {
         if (element.hasAttribute('data-id')) {
             const id = element.getAttribute('data-id');
-            ShowTodo(id,$todos);
+            ShowTodo(id).then( data => {
+                $todos.innerHTML = data;
+            });
         }
     }
 
@@ -58,7 +60,9 @@ $todos.addEventListener('click', (event) => {
     if (element.classList.contains('listTodo_b2_edit')) {
         if (element.hasAttribute('data-id')) {
             const id = element.getAttribute('data-id');
-            ShowChangeTodo(id,$todos);
+            ShowChangeTodo(id).then(data => {
+                $todos.innerHTML = data;
+            });
         }
     }
 

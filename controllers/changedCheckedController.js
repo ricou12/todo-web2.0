@@ -1,5 +1,5 @@
 import {ChangedOrAdded} from './serviceControleur.js';
-import {getListTodo} from './listTodosController.js';
+import { notifyTodosUpdate } from './utils.js';
 
 /* ------------------------------------------------------------------
     ACTUALISE DANS LA DATABASE LE CHANGEMENT D'ETAT DU CHECKBOX
@@ -10,7 +10,7 @@ const data = {
 }
 ChangedOrAdded(id, "PATCH", data).then(returnData => {
     if (returnData) {
-        getListTodo();
+        notifyTodosUpdate();
     }
 });
 }

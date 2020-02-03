@@ -1,9 +1,10 @@
 import {requestTodo} from './serviceControleur.js';
 import {ChangedOrAdded} from './serviceControleur.js';
-import {getListTodo} from './listTodosController.js';
 import {stateCheckBox} from './isCkeckedController.js';
+import { notifyTodosUpdate } from './utils.js';
 import {messageBox} from '../templates/messageBox.html.js';
 import {modifier} from '../templates/changeTodo.html.js';
+
 
 /* ----------------------------------------------------------
     ENREGISTRE LES MODIFICATIONS DU TODO DANS LA DATABASE
@@ -27,7 +28,7 @@ export const changeTodo = (id) => {
         "done": checkedBox.checked
     }
     ChangedOrAdded(id, "PATCH", data).then(dataTodo => {
-        getListTodo();
+        notifyTodosUpdate();
         messageBox("Modification", "Les modifications ont été prise en compte !");
         $('.toast').toast('show');
     });

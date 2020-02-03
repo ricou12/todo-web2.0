@@ -1,5 +1,5 @@
 import {resquestDelete} from './serviceControleur.js';
-import {getListTodo} from './listTodosController.js';
+import { notifyTodosUpdate } from './utils.js';
 import {messageBox} from '../templates/messageBox.html.js';
 
 /* ----------------------------------------------------------
@@ -8,7 +8,7 @@ import {messageBox} from '../templates/messageBox.html.js';
 export const deleteTodo = (id) => {
     resquestDelete(id).then(returnData => {
         if (returnData) {
-            getListTodo();
+            notifyTodosUpdate();
             messageBox("Suppression", "La note a été supprimée !")
         } else {
             messageBox("Suppression", "Impossible de supprimer la note!")

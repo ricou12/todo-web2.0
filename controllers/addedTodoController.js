@@ -1,6 +1,6 @@
 import {ChangedOrAdded} from './serviceControleur.js';
-import {getListTodo} from './listTodosController.js';
 import {messageBox} from '../templates/messageBox.html.js';
+import { notifyTodosUpdate } from './utils.js';
 
 
 /* ----------------------------------------------------
@@ -22,7 +22,7 @@ export const addedTodo = () => {
             content.value = "";
             messageBox("Edition","Votre note a été prise en compte !");
             $('.toast').toast('show');
-            getListTodo();
+            notifyTodosUpdate();
         });
     }
 }

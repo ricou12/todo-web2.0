@@ -4,19 +4,28 @@ import {addedTodo} from './addedTodoController.js';
 import {changeTodo,ShowChangeTodo,isCheckedChangeColor} from './changedTodoController.js';
 import {deleteTodo} from './deleteTodoController.js';
 import {changedChecked} from './changedCheckedController.js';
-
-
+import { notifyTodosUpdate } from './utils.js';
 
 // conteneur principal de la page html
 const $todos = document.querySelector('.todos');
 
 /* ----------------------------------------------------
-  ECOUTE L'EVENT BUTTON DU MODAL AJOUTER
+        RECUPERE UN EVENEMENT PERSONALISE
+----------------------------------------------------- */
+document.addEventListener('refresh-todos', () => {
+    getListTodo().then(data => {
+        $todos.innerHTML = data;
+    });
+});
+
+/* ----------------------------------------------------
+        ECOUTE L'EVENT BUTTON DU MODAL AJOUTER
 ----------------------------------------------------- */
 const $addedTodo = document.querySelector('.addedTodoSave');
 $addedTodo.addEventListener('click', () => {
     addedTodo();
 });
+
 /* ----------------------------------------------------
   ECOUTE LES EVENEMENTS A PARTIR DE LA BALISE PARENT
 ----------------------------------------------------- */
@@ -76,12 +85,20 @@ $todos.addEventListener('click', (event) => {
 
     // RETOUR PAGE LIST DES TODOS
     if (element.classList.contains('btnHome')) {
-        getListTodo();
+        notifyTodosUpdate();
     }
-});
 
+    // if (element.classList.contains('btnBold')){
+    //     var selObj = document.getSelection(); 
+    //     alert(selObj);
+    //     var selRange = selObj.getRangeAt(0);
+    //     // travailler avec la sélection
+    // }
+
+});
+ 
 
 /* ------------------------------------------
             CHARGEMENT DE LA PAGE
 ------------------------------------------- */
-getListTodo();
+notifyTodosUpdate();

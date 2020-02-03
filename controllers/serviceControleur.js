@@ -1,10 +1,12 @@
 /* ------------------------------------------
             REQUETES ASYNCHRONES
 ------------------------------------------- */
+// Adress
+const BaseUrl = "http://localhost:3000/api/v1/todos/"
 
 // OBTENIR LA LISTE DES TODO OU UN SEUL VIA SON ID
-export const requestTodo = (url) => {
-    return fetch(url)
+export const requestTodo = (id) => {
+    return fetch(BaseUrl + id)
         .then(res => res.json())
         .then(dataTodo => {
             return dataTodo;
@@ -12,8 +14,8 @@ export const requestTodo = (url) => {
 }
 
 // AJOUTER OU MODIFIER
-export const ChangedOrAdded = (url, verbe, data) => {
-    return fetch(url, {
+export const ChangedOrAdded = (id, verbe, data) => {
+    return fetch(BaseUrl + id, {
             method: verbe,
             headers: {
                 "Content-Type": "application/json"
@@ -31,7 +33,7 @@ export const ChangedOrAdded = (url, verbe, data) => {
 
 // SUPPRIMER
 export const resquestDelete = (id) => {
-    return fetch(`http://localhost:3000/api/v1/todos/${id}`, {
+    return fetch(BaseUrl + id, {
             method: "DELETE"
         })
         .then(res => res.json())

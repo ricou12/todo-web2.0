@@ -8,7 +8,7 @@ export const changedChecked = (id,$state) => {
 const data = {
     "done": $state
 }
-ChangedOrAdded(`http://localhost:3000/api/v1/todos/${id}`, "PATCH", data).then(returnData => {
+ChangedOrAdded(id, "PATCH", data).then(returnData => {
     if (returnData) {
         getListTodo();
     }

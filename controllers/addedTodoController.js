@@ -17,7 +17,7 @@ export const addedTodo = () => {
             "title": title.value,
             "content": content.value
         };
-        ChangedOrAdded("http://localhost:3000/api/v1/todos", "POST", data).then(data => {
+        ChangedOrAdded("", "POST", data).then(data => {
             title.value = "";
             content.value = "";
             messageBox("Edition","Votre note a été prise en compte !");

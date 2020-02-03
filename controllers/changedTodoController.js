@@ -11,7 +11,7 @@ import {modifier} from '../templates/changeTodo.html.js';
 
 // Affichage de la page.
 export const ShowChangeTodo = (id) => {
-    return requestTodo(`http://localhost:3000/api/v1/todos/${id}`).then(dataTodo => {
+    return requestTodo(id).then(dataTodo => {
        return modifier(dataTodo,stateCheckBox(dataTodo.done));
     });
 }
@@ -26,7 +26,7 @@ export const changeTodo = (id) => {
         "content": content,
         "done": checkedBox.checked
     }
-    ChangedOrAdded(`http://localhost:3000/api/v1/todos/${id}`, "PATCH", data).then(dataTodo => {
+    ChangedOrAdded(id, "PATCH", data).then(dataTodo => {
         getListTodo();
         messageBox("Modification", "Les modifications ont été prise en compte !");
         $('.toast').toast('show');

@@ -5,7 +5,7 @@
 const BaseUrl = "http://localhost:3000/api/v1/todos/";
 
 // OBTENIR LA LISTE DES TODO OU UN SEUL VIA SON ID
-export const requestTodo = (id) => {
+export const requestTodo = (id="") => {
     return fetch(BaseUrl + id)
         .then(res => res.json())
         .then(dataTodo => {

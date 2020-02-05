@@ -8,11 +8,11 @@ export const addedPagination = (nbrePage,url) => {
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            `;
+        `;
 
         let b2 = "";
         for (i; i < nbrePage; i++) {
-            b2 +=`<li class="page-item"><a class="page-link" href="#" data-id ="${i}">${i}</a></li>`
+            b2 +=`<li class="page-item"><a class="page-link navPage" href="#" data-id ="${i+1}">${i+1}</a></li>`
         }
 
         const b3 = `<li class="page-item"><a class="page-link" href="#">Next</a></li>
@@ -22,7 +22,7 @@ export const addedPagination = (nbrePage,url) => {
         </div`;
         return b1 +b2 +b3   
     }
-    
+   return ""; 
 }
 
 

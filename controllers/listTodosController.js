@@ -3,7 +3,7 @@ import {stateCheckBox} from './isCkeckedController.js'
 import * as listTodos from '../templates/listTodos.html.js';
 import {addedPagination} from '../templates/pagination.html.js';
 
-let nbrPerPage = 2;
+let nbrPerPage = 4;
 
 /* -------------------------------------------------
             AFFICHER LA LISTE DES TODOS 
@@ -16,19 +16,22 @@ const NumberPage = (data) => {
 
 export const getPage =() => {
     return requestTodo("count").then(data => {
-        const pagination = addedPagination(NumberPage(data), "http://localhost:3000/api/v1/todos/count/");
-        return pagination;
+        const nbrePage = NumberPage(data);
+        const pagination = addedPagination(nbrePage, "http://localhost:3000/api/v1/todos/count/");
+        return [nbrePage,pagination];
     });
 }
 
-export const getListTodo = () => {
+export const getListTodo = (page=0) => {
     return getPage().then(data => {
-        return requestTodo().then(dataTodos => {
+        const offset = (page * nbrPerPage) - nbrPerPage;
+
+        return requestTodo(`?limit=${nbrPerPage}&offset=${offset}`).then(dataTodos => {
                 // Tri le tableau avant de creer le html.
-                const sortDataTodos = dataTodos.sort((a, b) => a.createdAt + b.createdAt);
-                return listTodos.pageTitle() + sortDataTodos.map(todo => listTodos.showTodo(todo,stateCheckBox(todo.done))).join(""); 
+                // const sortDataTodos = dataTodos.sort((a, b) => a.createdAt + b.createdAt);
+                return listTodos.pageTitle() + dataTodos.map(todo => listTodos.showTodo(todo, stateCheckBox(todo.done))).join("") + data[1];
             }); 
     }); 
 }
 // const offset = nbrePage
-//`?limit={$nbrPerPage}&offset=${offset}`
+// `?limit=${nbrPerPage}&offset=${offset}`

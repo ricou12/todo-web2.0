@@ -88,13 +88,15 @@ $todos.addEventListener('click', (event) => {
         notifyTodosUpdate();
     }
 
-    // if (element.classList.contains('btnBold')){
-    //     var selObj = document.getSelection(); 
-    //     alert(selObj);
-    //     var selRange = selObj.getRangeAt(0);
-    //     // travailler avec la sélection
-    // }
-
+    // PAGINATION
+    if (element.classList.contains('navPage')) {
+        if (element.hasAttribute('data-id')) {
+            const id = element.getAttribute('data-id');
+            getListTodo(id).then(data => {
+                $todos.innerHTML = data;
+            });
+        }
+    }
 });
  
 

@@ -22,14 +22,17 @@ export const getPage =() => {
     });
 }
 
-export const getListTodo = (page=0) => {
+export const getListTodo = (page = 1) => {
     return getPage().then(data => {
-        const offset = (page * nbrPerPage) - nbrPerPage;
+        const offset = (page.page * nbrPerPage) - nbrPerPage;
 
         return requestTodo(`?limit=${nbrPerPage}&offset=${offset}`).then(dataTodos => {
+                // conteneur principal de la page html
+                const $todos = document.querySelector('.todos');
                 // Tri le tableau avant de creer le html.
                 // const sortDataTodos = dataTodos.sort((a, b) => a.createdAt + b.createdAt);
-                return listTodos.pageTitle() + dataTodos.map(todo => listTodos.showTodo(todo, stateCheckBox(todo.done))).join("") + data[1];
+                // $todos.innerHTML = listTodos.pageTitle() + dataTodos.map(todo => listTodos.showTodo(todo, stateCheckBox(todo.done))).join("") + data[1];
+                // return listTodos.pageTitle() + dataTodos.map(todo => listTodos.showTodo(todo, stateCheckBox(todo.done))).join("") + data[1];
             }); 
     }); 
 }

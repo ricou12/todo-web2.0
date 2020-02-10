@@ -6,7 +6,7 @@ import { notifyTodosUpdate } from './utils.js';
 /* ----------------------------------------------------
                     AJOUTER UN TODO
 ----------------------------------------------------- */
-export const addedTodo = () => {
+export const addedTodo = (idPage) => {
     const title = document.querySelector('.addedTodoTitle');
     const content = document.querySelector('.addedTodoContent');
     if (title.value === "") {
@@ -22,7 +22,7 @@ export const addedTodo = () => {
             content.value = "";
             messageBox("Edition","Votre note a été prise en compte !");
             $('.toast').toast('show');
-            notifyTodosUpdate();
+            notifyTodosUpdate(idPage);
         });
     }
 }

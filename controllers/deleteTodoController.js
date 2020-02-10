@@ -5,10 +5,10 @@ import {messageBox} from '../templates/messageBox.html.js';
 /* ----------------------------------------------------------
     SUPPRESSION D'UN TODO
 ---------------------------------------------------------- */
-export const deleteTodo = (id) => {
+export const deleteTodo = (id,idPage) => {
     resquestDelete(id).then(returnData => {
         if (returnData) {
-            notifyTodosUpdate();
+            notifyTodosUpdate(idPage);
             messageBox("Suppression", "La note a été supprimée !")
         } else {
             messageBox("Suppression", "Impossible de supprimer la note!")

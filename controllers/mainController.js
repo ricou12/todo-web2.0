@@ -8,12 +8,13 @@ import { notifyTodosUpdate } from './utils.js';
 
 // conteneur principal de la page html
 const $todos = document.querySelector('.todos');
-
+let IdPage =1;
 /* ----------------------------------------------------
         RECUPERE UN EVENEMENT PERSONALISE
 ----------------------------------------------------- */
-document.addEventListener('refresh-todos', () => {
-    getListTodo().then(data => {
+document.addEventListener('refresh-todos', (event) => {
+    let myDetail = event.detail;
+    getListTodo(myDetail).then(data => {
         $todos.innerHTML = data;
     });
 });
@@ -23,7 +24,7 @@ document.addEventListener('refresh-todos', () => {
 ----------------------------------------------------- */
 const $addedTodo = document.querySelector('.addedTodoSave');
 $addedTodo.addEventListener('click', () => {
-    addedTodo();
+    addedTodo(idPage);
 });
 
 /* ----------------------------------------------------
@@ -38,7 +39,7 @@ $todos.addEventListener('click', (event) => {
         if (element.hasAttribute('data-id')) {
             const id = element.getAttribute('data-id');
             const checkedBox = element.checked;
-            changedChecked(id,checkedBox);
+            changedChecked(id,checkedBox,idPage);
         }
     }
 
@@ -51,7 +52,7 @@ $todos.addEventListener('click', (event) => {
     if (element.classList.contains('listTodo_b2_trash')) {
         if (element.hasAttribute('data-id')) {
             const id = element.getAttribute('data-id');
-            deleteTodo(id);
+            deleteTodo(id,idPage);
         }
     }
 
@@ -92,15 +93,13 @@ $todos.addEventListener('click', (event) => {
     if (element.classList.contains('navPage')) {
         if (element.hasAttribute('data-id')) {
             const id = element.getAttribute('data-id');
-            getListTodo(id).then(data => {
-                $todos.innerHTML = data;
-            });
+            IdPage =id;
+            notifyTodosUpdate(id);
         }
     }
 });
- 
 
 /* ------------------------------------------
             CHARGEMENT DE LA PAGE
 ------------------------------------------- */
-notifyTodosUpdate();
+notifyTodosUpdate(1);

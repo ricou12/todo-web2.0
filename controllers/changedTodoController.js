@@ -18,7 +18,7 @@ export const ShowChangeTodo = (id) => {
 }
 
 // Enregistre les modifications.
-export const changeTodo = (id,idPage) => {
+export const changeTodo = (id,idpage) => {
     const title = document.querySelector('.modifier_title').value;
     const content = document.querySelector('.modifier_content').value;
     const checkedBox = document.querySelector('.modifier_done');
@@ -28,7 +28,7 @@ export const changeTodo = (id,idPage) => {
         "done": checkedBox.checked
     }
     ChangedOrAdded(id, "PATCH", data).then(dataTodo => {
-        notifyTodosUpdate(idPage);
+        notifyTodosUpdate(idpage);
         messageBox("Modification", "Les modifications ont été prise en compte !");
         $('.toast').toast('show');
     });

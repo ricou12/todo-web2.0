@@ -3,7 +3,7 @@ import {stateCheckBox} from './isCkeckedController.js'
 import * as listTodos from '../templates/listTodos.html.js';
 import {addedPagination} from '../templates/pagination.html.js';
 
-let nbrPerPage = 4;
+let nbrPerPage = 10;
 
 /* -------------------------------------------------
             AFFICHER LA LISTE DES TODOS 
@@ -27,12 +27,9 @@ export const getListTodo = (page = 1) => {
         const offset = (page.page * nbrPerPage) - nbrPerPage;
 
         return requestTodo(`?limit=${nbrPerPage}&offset=${offset}`).then(dataTodos => {
-                // conteneur principal de la page html
-                const $todos = document.querySelector('.todos');
                 // Tri le tableau avant de creer le html.
                 // const sortDataTodos = dataTodos.sort((a, b) => a.createdAt + b.createdAt);
-                // $todos.innerHTML = listTodos.pageTitle() + dataTodos.map(todo => listTodos.showTodo(todo, stateCheckBox(todo.done))).join("") + data[1];
-                // return listTodos.pageTitle() + dataTodos.map(todo => listTodos.showTodo(todo, stateCheckBox(todo.done))).join("") + data[1];
+                return listTodos.pageTitle() + dataTodos.map(todo => listTodos.showTodo(todo, stateCheckBox(todo.done))).join("") + data[1];
             }); 
     }); 
 }

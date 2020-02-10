@@ -8,7 +8,7 @@ import { notifyTodosUpdate } from './utils.js';
 
 // conteneur principal de la page html
 const $todos = document.querySelector('.todos');
-let IdPage =1;
+let idPage = 1;
 /* ----------------------------------------------------
         RECUPERE UN EVENEMENT PERSONALISE
 ----------------------------------------------------- */
@@ -80,20 +80,20 @@ $todos.addEventListener('click', (event) => {
     if (element.classList.contains('modifier_btn')) {
         if (element.hasAttribute('data-id')) {
             const id = element.getAttribute('data-id');
-            changeTodo(id);
+            changeTodo(id, idPage);
         }
     }
 
     // RETOUR PAGE LIST DES TODOS
     if (element.classList.contains('btnHome')) {
-        notifyTodosUpdate();
+        notifyTodosUpdate(idPage);
     }
 
     // PAGINATION
     if (element.classList.contains('navPage')) {
         if (element.hasAttribute('data-id')) {
             const id = element.getAttribute('data-id');
-            IdPage =id;
+            idPage = id;
             notifyTodosUpdate(id);
         }
     }
@@ -102,4 +102,5 @@ $todos.addEventListener('click', (event) => {
 /* ------------------------------------------
             CHARGEMENT DE LA PAGE
 ------------------------------------------- */
+
 notifyTodosUpdate(1);

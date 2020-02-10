@@ -2,11 +2,7 @@
 // PROPAGATION VERS LES PARENTS
 // CAPTURE
 
-let MyPage;
-
-export const notifyTodosUpdate = (value = 0) => {
-    if ( value != 0 ){ MyPage = value; } 
-
+export const notifyTodosUpdate = (value = 1) => {
     let evt = new CustomEvent("refresh-todos", {
             detail: {
                 page: value

@@ -6,7 +6,6 @@ export const addedPagination = (nbrePage,url) => {
             <div class="col-12 d-flex justify-content-center">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
         `;
 
         let b2 = "";
@@ -14,8 +13,7 @@ export const addedPagination = (nbrePage,url) => {
             b2 +=`<li class="page-item"><a class="page-link navPage" href="#" data-id ="${i}">${i}</a></li>`
         }
 
-        const b3 = `<li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
+        const b3 = `</ul>
                 </nav>
             </div>
         </div`;
@@ -23,5 +21,3 @@ export const addedPagination = (nbrePage,url) => {
     }
    return ""; 
 }
-
-

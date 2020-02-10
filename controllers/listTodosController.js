@@ -3,7 +3,7 @@ import {stateCheckBox} from './isCkeckedController.js'
 import * as listTodos from '../templates/listTodos.html.js';
 import {addedPagination} from '../templates/pagination.html.js';
 
-let nbrPerPage = 10;
+let nbrPerPage = 5;
 
 /* -------------------------------------------------
             AFFICHER LA LISTE DES TODOS 
